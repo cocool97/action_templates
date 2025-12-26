@@ -1,0 +1,19 @@
+name: Rust Build
+description: Build Rust project
+
+inputs:
+  package_name:
+    description: "Optional package name to build"
+    required: false
+  features:
+    description: "Optional features to enable"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        cargo build --release \
+          ${{ inputs.package_name && format('-p {0}', inputs.package_name) || '' }} \
+          ${{ inputs.features && format('--features {0}', inputs.features) || '' }}

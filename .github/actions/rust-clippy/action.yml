@@ -1,0 +1,20 @@
+name: Rust Clippy
+description: Run clippy with strict warnings
+
+inputs:
+  package_name:
+    description: "Optional package name to build"
+    required: false
+  features:
+    description: "Optional features to enable"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        cargo clippy \
+          ${{ inputs.package_name && format('-p {0}', inputs.package_name) || '' }} \
+          ${{ inputs.features && format('--features {0}', inputs.features) || '' }} \
+          --all-targets -- -D warnings

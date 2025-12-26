@@ -1,0 +1,66 @@
+name: Rust - Quality
+
+on:
+  workflow_call:
+    inputs:
+      package_name:
+        description: "Optional package name to build"
+        required: false
+        type: string
+      features:
+        description: "Optional features to enable"
+        required: false
+        type: string
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-clippy@main
+        with:
+          package_name: ${{ inputs.package_name }}
+          features: ${{ inputs.features }}
+
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-fmt@main
+        with:
+          package_name: ${{ inputs.package_name }}
+
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-doc@main
+        with:
+          package_name: ${{ inputs.package_name }}
+          features: ${{ inputs.features }}
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-test@main
+        with:
+          package_name: ${{ inputs.package_name }}
+          features: ${{ inputs.features }}
+
+  outdated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-outdated@main
+        with:
+          package_name: ${{ inputs.package_name }}
+          features: ${{ inputs.features }}

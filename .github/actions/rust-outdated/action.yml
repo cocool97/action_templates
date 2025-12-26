@@ -1,0 +1,22 @@
+name: Rust Outdated
+description: Check outdated dependencies
+
+inputs:
+  package_name:
+    description: "Optional package name to build"
+    required: false
+  features:
+    description: "Optional features to enable"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: cargo install cargo-outdated
+
+    - shell: bash
+      run: |
+        cargo outdated -d 1 \
+          ${{ inputs.package_name && format('-p {0}', inputs.package_name) || '' }} \
+          ${{ inputs.features && format('--features {0}', inputs.features) || '' }}
