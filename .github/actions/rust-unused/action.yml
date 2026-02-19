@@ -1,0 +1,11 @@
+name: Rust unused dependencies
+description: Check for unused dependencies
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: cargo install cargo-machete
+
+    - shell: bash
+      run: cargo machete

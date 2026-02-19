@@ -64,3 +64,10 @@ jobs:
         with:
           package_name: ${{ inputs.package_name }}
           features: ${{ inputs.features }}
+
+  unused:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-unused@main
