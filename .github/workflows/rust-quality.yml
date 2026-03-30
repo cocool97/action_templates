@@ -35,6 +35,15 @@ jobs:
         with:
           package_name: ${{ inputs.package_name }}
 
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cocool97/action_templates/.github/actions/rust-setup@main
+      - uses: actions/checkout@v4
+      - uses: cocool97/action_templates/.github/actions/rust-msrv@main
+        with:
+          package_name: ${{ inputs.package_name }}
+
   doc:
     runs-on: ubuntu-latest
     steps:

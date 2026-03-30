@@ -1,0 +1,31 @@
+name: Rust MSRV
+description: Check Rust MSRV for package(s)
+
+inputs:
+  package_name:
+    description: "Optional package name or path to build"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        set -euo pipefail
+
+        if ! command -v cargo-msrv &> /dev/null; then
+          echo "Installing cargo-msrv..."
+          cargo install cargo-msrv
+        fi
+
+        if [[ -n "${{ inputs.package_name }}" ]]; then
+          PACKAGES=("${{ inputs.package_name }}")
+        else
+          PACKAGES=($(cargo metadata --no-deps --format-version 1 \
+            | jq -r '.workspace_members[] as $id | .packages[] | select(.id == $id) | .manifest_path'))
+        fi
+
+        for PKG in "${PACKAGES[@]}"; do
+          echo "Checking MSRV for $PKG..."
+          cargo msrv verify --manifest-path "$PKG"
+        done

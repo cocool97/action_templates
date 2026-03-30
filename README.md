@@ -20,3 +20,4 @@
 |  rust-outdated  | Run `cargo-outdated` to check for outdated dependencies |
 |   rust-setup    |              Setup rust build environment               |
 |    rust-test    |                    Run project tests                    |
+|    rust-msrv    |           Verify that rust MSRV is up-to-date           |
